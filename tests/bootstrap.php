@@ -1,10 +1,7 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+require_once 'Mockery/Loader.php';
+require_once 'Hamcrest/Hamcrest.php';
 /**
  * @author John Judy <john.a.judy@gmail.com>
  */
@@ -23,10 +20,22 @@ spl_autoload_register(function ($name){
 
 spl_autoload_register(function($name){
     $filename = '';
-    foreach(explode('\\', $name) as $piece){$filename.=lcfirst($piece).'/';}
-    $filename = \str_replace("apacheLogParser",
-            dirname(__FILE__).'/../tools/apacheLogParser', $filename);
+    $fileParts = array_map(function($piece){return lcfirst($piece);},
+            explode('\\',$name));
+    if($fileParts[0]=='pimple'){
+        $filename = dirname(__FILE__).'/../tools/Pimple/lib/Pimple';
+    }
+    elseif($fileParts[0]=='mustache'){
+        $filename = dirname(__FILE__).'/../tools/mustache/Mustache';
+    }
+    else{
+        $filename = implode('/', $fileParts);
+        $filename = \str_replace("apacheLogParser",
+                dirname(__FILE__).'/../tools/apacheLogParser', $filename);
+    }
     if(file_exists($filename.".php")){require_once($filename.".php");}
 },true,true);
+$loader = new \Mockery\Loader;
+$loader->register();
 
 ?>

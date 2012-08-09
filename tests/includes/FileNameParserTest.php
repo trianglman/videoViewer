@@ -1,12 +1,6 @@
 <?php
-
 namespace videoViewer;
-require_once 'Mockery/Loader.php';
-require_once 'Hamcrest/Hamcrest.php';
-require_once dirname(__FILE__) . '/../../includes/FileNameParser.php';
 use \Mockery as m;
-$loader = new m\Loader;
-$loader->register();
 
 /**
  * Test class for FileNameParser.

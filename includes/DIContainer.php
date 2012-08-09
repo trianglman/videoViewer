@@ -31,8 +31,12 @@ class DIContainer extends \Pimple{
      */
     public function getView($page){
         $class = '\\videoViewer\\views\\'.ucfirst($page).'View';
-        if(class_exists($class, true)){return new $class($this);}
-        else{throw new \Exception('Class not found: '.$class);}
+        if(class_exists($class, true)){
+            return new $class($this);
+        }
+        else{
+            throw new \RuntimeException('Class not found: '.$class);
+        }
     }
     
     public function getEntity($name){
@@ -43,7 +47,7 @@ class DIContainer extends \Pimple{
         }
         else
         {
-            throw new \Exception('Class not found: '.$class);
+            throw new \RuntimeException('Class not found: '.$class);
         }
     }
     
@@ -71,9 +75,9 @@ class DIContainer extends \Pimple{
                 {
                     throw new \InvalidArgumentException('Rename must be called with two arguments, '.count($params).' supplied.');
                 }
-                $from = realpath($params[0]);
-                $to = realpath($params[1]);
-                if(substr($from, 0, strlen($validPath))!==substr($from, 0, strlen($to)) && 
+                $from = realpath(dirname($params[0])).'/'.pathinfo($params[0],PATHINFO_BASENAME);
+                $to = realpath(dirname($params[1])).'/'.pathinfo($params[1],PATHINFO_BASENAME);
+                if(substr($from, 0, strlen($validPath))!==substr($to, 0, strlen($validPath)) && 
                         substr($from, 0, strlen($validPath))!==$validPath)
                 {
                     throw new \InvalidArgumentException('Files can only be moved in the local context');
