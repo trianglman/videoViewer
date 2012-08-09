@@ -1,0 +1,48 @@
+#!/bin/bash
+
+###############################
+#
+# Utility script to convert a directory of videos 
+# into formats that can be handled by HTML5 and Roksbox
+#
+# Uses ffmpeg2theora and HandbrakeCLI and ffmpeg to create
+# a .ogg, .mp4 and .jpg respectively
+#
+###############################
+
+#Update these paths to where the videos are and should be
+videopath=/path/to/videos
+finalDir=/var/www/videoViewer/videos/
+lockfile="/tmp/convertVid.lock"
+
+if [ -e ${lockfile} ] 
+then
+  exit 0
+fi
+touch ${lockfile}
+
+for file in ${videopath}/*
+do
+  echo "Checking $file"
+  if [ -f "$file" ] 
+  then
+    filebaseWithDir=${file%.*}
+    filebase=${filebaseWithDir:48}
+
+    ffmpeg2theora -o "${finalDir}${filebase}.ogv" "${file}" > /dev/null
+    chmod go+rw "${finalDir}${filebase}.ogv"
+
+    /usr/local/bin/HandBrakeCLI -Z "iPhone Legacy" -i "${file}" -O -o "${finalDir}${filebase}.mp4"
+    chmod go+rw "${finalDir}${filebase}.mp4"
+
+    ffmpeg -i "${file}" -r 1 -t 1 -ss 120 -f image2 -v 0 "${finalDir}thumbs/${filebase}.jpg"
+    chmod go+rw "${finalDir}thumbs/${filebase}.jpg"
+
+    touch "${finalDir}${filebase}.done"
+    chmod go+rw "${finalDir}${filebase}.done"
+
+    rm "$file"
+  fi
+done
+
+rm ${lockfile}
