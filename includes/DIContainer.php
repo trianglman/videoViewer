@@ -96,7 +96,7 @@ class DIContainer extends \Pimple{
                     throw new \InvalidArgumentException('file_put_contents must be called with two arguments, '
                             .count($params).' supplied.');
                 }
-                $to = realpath($params[0]);
+                $to = realpath(dirname($params[0])).'/'.pathinfo($params[0],PATHINFO_BASENAME);
                 if(substr($to, 0, strlen($validPath))!==$validPath)
                 {
                     throw new \InvalidArgumentException('Files can only be modified in the local context');
