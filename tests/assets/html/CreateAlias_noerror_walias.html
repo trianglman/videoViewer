@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Edit My Video</title>
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>        <style>
+            .manualEntry{
+                color:#000;
+            }
+            .suggestedEntry{
+                color:#666;
+            }
+        </style>
+        <script type="text/javascript" language="JavaScript">
+            function removeSuggestion(formField){
+                $(formField).removeClass('suggestedEntry')
+                            .addClass('manualEntry')
+                            .val('')
+                            .unbind('focus');
+            }
+        </script>
+    </head>
+    <body>
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <form action="createAlias.php" method="POST">
+            <input type="hidden" name="videoId" value="1" />
+            <table border="1" width="100%">
+                <tr>
+                    <th>Series:</th>
+                    <td>
+                        <select name="series" id="seriesSelect">
+                            <option value="1" >
+                                Series1
+                            </option>
+                            <option value="2" selected="selected">
+                                Series2
+                            </option>
+                            <option value="3" >
+                                Series3
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Alias:</th>
+                    <td>
+                        <input type="text" name="alias" value="test alias"
+                               class="manualEntry"
+                                                              />
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Save" />
+        </form>
+        
+    </body>
+</html>
