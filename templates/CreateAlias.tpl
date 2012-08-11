@@ -33,7 +33,7 @@
                     <td>
                         <select name="series" id="seriesSelect">
                             {{#series}}
-                            <option value="{{seriesId}}" {{selected}}>
+                            <option value="{{seriesId}}" {{{selected}}}>
                                 {{seriesName}}
                             </option>
                             {{/series}}

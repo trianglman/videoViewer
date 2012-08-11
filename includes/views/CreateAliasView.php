@@ -32,7 +32,7 @@ class CreateAliasView  extends PageView{
             $temp->seriesId = $series->getId();
             $temp->seriesName = $series->getName();
             if($series->getId()==$this->defaultSeries){
-                $temp->selected = 'selected="selcted"';
+                $temp->selected = 'selected="selected"';
             }
             else{$temp->selected='';}
             $this->series[]=$temp;
