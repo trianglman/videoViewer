@@ -14,7 +14,7 @@
             {{#seriesOpt}}
             <li>
                 <img src="temp/{{seriesId}}.jpg" /><br clear="all" />
-                <a href="{{TVDBUrl}}" target="_BLANK">{{name}}</a><br />
+                <a href="{{{TVDBUrl}}}" target="_BLANK">{{name}}</a><br />
                 <a href="javascript:$('#seriesId').val({{seriesId}});
                                     $('#hiddenform').submit();">Select</a>
             </li>

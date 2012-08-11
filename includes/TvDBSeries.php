@@ -129,5 +129,15 @@ class TvDBSeries {
         }
         return null;
     }
+    
+    public function getSeriesId()
+    {
+        return $this->seriesid;
+    }
+    
+    public function getSeriesName()
+    {
+        return $this->name;
+    }
 }
 ?>

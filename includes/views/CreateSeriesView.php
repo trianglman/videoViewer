@@ -23,11 +23,11 @@ class CreateSeriesView extends PageView {
         parent::__construct($di, $template);
     }
     
-    public function addSeriesOpt($opt){
+    public function addSeriesOpt(\videoViewer\TvDBSeries $opt){
         $seriesOpt = new \stdClass();
-        $seriesOpt->seriesId = $opt->seriesid;
+        $seriesOpt->seriesId = $opt->getSeriesId();
         $seriesOpt->TVDBUrl = $opt->getTVDBUrl();
-        $seriesOpt->name = $opt->name;
+        $seriesOpt->name = $opt->getSeriesName();
         $this->seriesOpt[]=$seriesOpt;
     }
 
