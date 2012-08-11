@@ -3,7 +3,7 @@ namespace videoViewer;
 /**
  * All of the bootstrap code needed to initialize a page
  */
-define('TVDB_API_KEY','AFF0D45A8B89163F');
+define('TVDB_API_KEY','');
 
 //load objects from this project
 spl_autoload_register(function ($name){
