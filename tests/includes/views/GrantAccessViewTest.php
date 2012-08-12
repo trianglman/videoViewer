@@ -48,7 +48,7 @@ class GrantAccessViewTest extends \PHPUnit_Framework_TestCase {
         m::close();
     }
 
-    public function testCreateAliasNoErrorNoAlias() {
+    public function testGrantAccessTwoUsers() {
         $expected = file_get_contents(dirname(__FILE__).'/../../assets/html/GrantAccess_twoUsers.html');
         $this->di->shouldReceive('loadTemplate')->with('GrantAccess')->andReturn($this->tpl);
         $view = new \videoViewer\views\GrantAccessView($this->di);

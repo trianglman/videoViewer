@@ -93,7 +93,7 @@ class RegisterController extends PageController {
         }
         if(empty($this->_post['login']))
         {
-            $errors[] = 'You must set a log in';
+            $errors[] = 'You must set a log in.';
         }
         if(count($errors)>0)
         {

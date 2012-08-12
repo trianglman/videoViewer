@@ -7,7 +7,7 @@ use \Mockery as m;
 /**
  * 
  */
-class ListAllSeriesViewTest extends \PHPUnit_Framework_TestCase {
+class RegisterViewTest extends \PHPUnit_Framework_TestCase {
     
     public $values = array();
     
@@ -20,17 +20,13 @@ class ListAllSeriesViewTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $series = m::mock('\videoViewer\Entities\Series');
-        $series->shouldReceive('getId')->andReturn(1,1,2,2,3,3);
-        $series->shouldReceive('getName')->andReturn('Series 1','Series 2','Series 3');
-        $this->values['series'] = array($series,$series,$series);
 
         $this->di = m::mock('\videoViewer\DIContainer');
         $head = file_get_contents(dirname(__FILE__).'/../../../templates/head.tpl');
         $nav = file_get_contents(dirname(__FILE__).'/../../../templates/nav.tpl');
         $this->di->shouldReceive('loadTemplate')->with('head')->andReturn($head);
         $this->di->shouldReceive('loadTemplate')->with('nav')->andReturn($nav);
-        $this->tpl = file_get_contents(dirname(__FILE__).'/../../../templates/ListAllSeries.tpl');
+        $this->tpl = file_get_contents(dirname(__FILE__).'/../../../templates/Register.tpl');
     }
 
     /**
@@ -41,13 +37,19 @@ class ListAllSeriesViewTest extends \PHPUnit_Framework_TestCase {
         m::close();
     }
 
-    public function testListAllSeriesThreeSeries() {
-        $expected = file_get_contents(dirname(__FILE__).'/../../assets/html/ListAllSeries_threeSeries.html');
-        $this->di->shouldReceive('loadTemplate')->with('ListAllSeries')->andReturn($this->tpl);
-        $view = new \videoViewer\views\ListAllSeriesView($this->di);
-        foreach($this->values['series'] as $series){
-            $view->addSeries($series);
-        }
+    public function testRegisterNoError() {
+        $expected = file_get_contents(dirname(__FILE__).'/../../assets/html/Register_noError.html');
+        $this->di->shouldReceive('loadTemplate')->with('Register')->andReturn($this->tpl);
+        $view = new \videoViewer\views\RegisterView($this->di);
+        $this->assertEquals($expected,$view->render());
+    }
+
+    public function testRegisterError() {
+        $expected = file_get_contents(dirname(__FILE__).'/../../assets/html/Register_error.html');
+        $this->di->shouldReceive('loadTemplate')->with('Register')->andReturn($this->tpl);
+        $view = new \videoViewer\views\RegisterView($this->di);
+        $view->hasError=true;
+        $view->errorMessage='Passwords do not match. You must set a name. You must set a log in.';
         $this->assertEquals($expected,$view->render());
     }
 

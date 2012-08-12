@@ -47,7 +47,7 @@ class CreateSeriesViewTest extends \PHPUnit_Framework_TestCase {
         m::close();
     }
 
-    public function testCreateAliasNoErrorNoAlias() {
+    public function testCreateSeriesTwoSeries() {
         $expected = file_get_contents(dirname(__FILE__).'/../../assets/html/CreateSeries_twoSeriesOpts.html');
         $this->di->shouldReceive('loadTemplate')->with('CreateSeries')->andReturn($this->tpl);
         $view = new \videoViewer\views\CreateSeriesView($this->di);
