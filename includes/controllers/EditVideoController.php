@@ -143,7 +143,7 @@ class EditVideoController extends PageController {
         }
         if(!empty($this->_post['date']) && strtotime($this->_post['date'])===false)
         {
-            $errors[]='Date must be a valid date';
+            $errors[]='Date must be a valid date.';
         }
         if(count($errors)===0)
         {

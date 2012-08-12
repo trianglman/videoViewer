@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Edit My Video</title>
+        <!--default head settings-->
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>        <script type="text/JavaScript">
+            function checkVidVsSeries(){
+                var url='editVideo.php?id=1&ajax=true&req=checkSeries';
+                url+='&seriesId='+$('#seriesSelect').val();
+                $.getJSON(url, '', function(data,status,xhr){
+                   $("#Season").val(data['Season']);
+                   $("#Episode").val(data['Episode']);
+                   $("#Date").val(data['Date']);
+                   $("#Details").val(data['Details']);
+                   $("#Name").val(data['Name']);
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <!--default top navigation-->
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <form action="editVideo.php" method="POST">
+            <input type="hidden" name="id" value="1" />
+            <table border="1" width="100%">
+                <tr>
+                    <th>Series:</th>
+                    <td>
+                        <select name="series" id="seriesSelect" 
+                                onChange="$('#lookupSeries').attr('disabled',false);">
+                            <option value="1"
+>Series 1</option>
+                            <option value="2"
+                                selected="selcted"
+>Series 2</option>
+                            <option value="3"
+>Series 3</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="button" name="lookupSeries" id="lookupSeries" value="Check Filename" 
+                           disabled="disabled" onClick="checkVidVsSeries();" />
+                </td>
+            </tr>
+            <tr>
+                <th>Name:</th>
+                <td><input type="text" name="name" value="Episode" id="Name" /></td>
+            </tr>
+            <tr>
+                <th>Season:</th>
+                <td><input type="text" name="season" value="1" id="Season" /></td>
+            </tr>
+            <tr>
+                <th>Episode:</th>
+                <td><input type="text" name="episode" value="1" id="Episode" /></td>
+            </tr>
+            <tr>
+                <th>Air Date:</th>
+                <td><input type="text" name="date" value="11/18/1980" id="Date" /></td>
+            </tr>
+            <tr>
+                <th>Video Details:</th>
+                <td><textarea name="details" id="Details" rows="3" cols="60">Details on the episode.</textarea></td>
+            </tr>
+            <tr>
+                <th>Notes:</th>
+                <td><textarea name="notes" id="notes" rows="3" cols="60">A couple notes.</textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Save" />
+                </td>
+            </tr>
+        </table>
+        </form>
+    </body>
+</html>
