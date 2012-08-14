@@ -74,7 +74,7 @@ class SeriesSeasonEpisodesView extends PageView {
         $opt->episodeNumber = $episode->getEpisodeNumber();
         $opt->videoId = $episode->getId();
         $opt->episodeName = $episode->getEpisodeName();
-        $opt->airDate = $episode->getAirDate()->format('F d, Y');
+        $opt->airDate = $episode->getAirDate()->format('F j, Y');
         $opt->sortDate = $episode->getAirDate()->getTimestamp();
         $this->episodes[] = $opt;
     }
