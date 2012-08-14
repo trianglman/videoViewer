@@ -29,7 +29,7 @@ class UserVideoListView extends PageView {
         $vid->seriesName = $video->getSeries()->getName();
         $vid->videoId = $video->getId();
         $vid->episodeName = $video->getEpisodeName();
-        $vid->airDate = $video->getAirDate()->format('F d, Y');
+        $vid->airDate = $video->getAirDate()->format('F j, Y');
         $vid->sortDate = $video->getAirDate()->getTimestamp();
         $this->videos[] = $vid;
     }

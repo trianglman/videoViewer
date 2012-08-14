@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>User Video Listing</title>
+        <!--default head settings-->
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>        <script type="text/javascript" language="JavaScript">
+            function addVideo(vidId)
+            {
+                $("#episodeInput").val(vidId);
+                $("#episodeForm").submit();
+            }
+        </script>
+    </head>
+    <body>
+        <!--default top navigation-->
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <dl>
+            <dt>Unwatched videos</dt>
+            <dd>
+                Series 1: 
+                <a href="viewEpisode.php?episode=1">
+                Episode 1</a> (Aired: May 3, 1980)
+                &mdash; <a href="javascript:addVideo(1)">Mark watched</a>
+            </dd>
+            <dd>
+                Series 2: 
+                <a href="viewEpisode.php?episode=2">
+                Episode the Other</a> (Aired: November 18, 1980)
+                &mdash; <a href="javascript:addVideo(2)">Mark watched</a>
+            </dd>
+        </dl>
+                <form action="userHistory.php" method="POST" id="episodeForm">
+            <input type="hidden" name="action" value="add" />
+            <input type="hidden" name="episode" id="episodeInput" value="" />
+        </form>
+    </body>
+</html>
