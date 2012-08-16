@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Episode 1 - Series 1</title>
+        <!--default head settings-->
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>        <script type="text/javascript" src="http://html5.kaltura.org/js" > </script> 
+        <style type="text/css">
+            .videoContainer{
+                postion:relative;
+                left:0;right:0;
+                margin:0 auto;
+                width:700px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--default top navigation-->
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <div class="videoContainer">
+            <video id="video" style="width:700px;"
+                   poster="http://www.ipoots.com/static/images/video-placeholder-big.jpg">
+                <source type="video/ogg" src="videos/video.1.ogv" />
+                <source type="video/h264" src="videos/video.1.mp4" />
+            </video>
+        </div>
+        <br clear="all" />
+        <a href="viewVideoDetails.php?id=1">View Details</a>
+    </body>
+</html>
