@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>List Unmatched Videos</title>
+        <!--default head settings-->
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>    </head>
+    <body>
+        <!--default top navigation-->
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <table border="1" width="100%">
+            <tr>
+                <td>File_1.something</td>
+                <td>Here are some notes.</td>
+                <td>
+                    <a href="viewVideoDetails.php?id=1">Edit Video Details</a>
+                </td>
+            </tr>
+            <tr>
+                <td>File_2.something</td>
+                <td>These are other notes.</td>
+                <td>
+                    <a href="viewVideoDetails.php?id=2">Edit Video Details</a>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
