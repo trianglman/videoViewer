@@ -31,6 +31,16 @@ class ViewVideoDetailsView extends PageView {
         parent::__construct($di, $template);
     }
     
+    public function oggPath()
+    {
+        return $this->video->getWebPath('ogg');
+    }
+    
+    public function mp4Path()
+    {
+        return $this->video->getWebPath('mp4');
+    }
+    
     public function seriesName()
     {
         return $this->video->getSeries()->getName();

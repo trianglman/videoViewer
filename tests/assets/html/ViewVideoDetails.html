@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View Video Details - Episode 1</title>
+        <!--default head settings-->
+        <link rel="stylesheet" type="text/css" href="styles/global.css" />
+        
+        <script type="text/javascript" src="scripts/jquery-1.6.4.js"></script>
+        <script type="text/javascript" src="scripts/global.js"></script>        <script type="text/javascript" src="http://html5.kaltura.org/js" > </script> 
+    </head>
+    <body>
+        <!--default top navigation-->
+        <div class="nav_bar">
+            <div class="nav_item">
+                <a href="index.php">Home</a>
+            </div>
+            <div class="nav_item">
+                <a href="userVideoList.php">My Videos</a>
+            </div>
+            <div class="nav_item">
+                <a href="userHistory.php">My History</a>
+            </div>
+            <div class="nav_item">
+                <a href="logout.php">Logout</a>
+            </div>
+        </div>
+        <table border="1" width="100%">
+            <tr>
+                <td colspan="2" align="center">
+                    <video id="video" style="width:640px;height:360px;"
+                           poster="http://www.ipoots.com/static/images/video-placeholder-big.jpg">
+                        <source type="video/ogg" src="videos/video.1.ogv" />
+                        <source type="video/h264" src="videos/video.1.mp4" />
+                    </video>
+                </td>
+            </tr>
+            <tr>
+                <th>Series:</th>
+                <td>Series 1</td>
+            </tr>
+            <tr>
+                <th>Season:</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Episode:</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Air Date:</th>
+                <td>11-18-1980</td>
+            </tr>
+            <tr>
+                <th>Video Details:</th>
+                <td>These are some details about the video.</td>
+            </tr>
+            <tr>
+                <th>Notes:</th>
+                <td>These are my notes.</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="display:block;float:left;text-align: center;width:33%;">
+                        <a href="createSeries.php?videoId=1">Create a Series</a>
+                    </div>
+                    <div style="display:block;float:left;text-align: center;width:33%;">
+                        <a href="createAlias.php?videoId=1">Create an Alias</a>
+                    </div>
+                    <div style="display:block;float:left;text-align: center;width:33%;">
+                        <a href="editVideo.php?id=1">Edit video</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
