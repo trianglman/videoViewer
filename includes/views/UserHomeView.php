@@ -36,7 +36,7 @@ class UserHomeView  extends PageView{
                 }
             }
             $temp->unwatchedCount = $unwatched;
-            $temp->pluralize = $unwatched!=1?'s':'';
+            $temp->pluralized = (($unwatched==1)?'':'s');
             $this->series[]=$temp;
         }
     }
