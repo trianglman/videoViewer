@@ -14,6 +14,12 @@ class CreateAliasController extends PageController{
      * @var \videoViewer\Entities\Video
      */
     protected $_video=null;
+    
+    /**
+     * An object that parses a file name into pieces
+     * @var \videoViewer\FileNameParser
+     */
+    public $fileNameParser = null;
     /**
      * Processes an AJAX request this page knows how to handle
      * 
@@ -36,9 +42,7 @@ class CreateAliasController extends PageController{
                     $this->_get['videoId']);
         }
         try{
-            $parsedFileName = new \videoViewer\FileNameParser(
-                    $this->_video->getFileName('mp4')
-                    );
+            $this->fileNameParser->parseFileName($this->_video->getFileName('mp4'));
         }
         catch(\Exception $e){
             $errorMessage = 'Video file name could not be parsed.';
@@ -50,12 +54,14 @@ class CreateAliasController extends PageController{
         $view = $this->_di->getView('CreateAlias');
         $view->video = $this->_video->__toString();
         $view->videoId = $this->_video->getId();
-        if(!empty($errorMessage)){$view->error = $errorMessage;}
+        if(!empty($errorMessage)){
+            $view->error = $errorMessage;
+        }
         $view->defaultSeries = $this->_video->getSeries()->getId();
         $view->setSeries($seriesOpt);
-        $view->defaultAlias = $parsedFileName->series;
+        $view->defaultAlias = $this->fileNameParser->series;
         $view->seriesHasAlias = $this->_video
-                ->getSeries()->hasAlias($parsedFileName->series);
+                ->getSeries()->hasAlias($this->fileNameParser->series);
         
         return $view->render();
     }
@@ -76,12 +82,15 @@ class CreateAliasController extends PageController{
             $this->_video->setSeries($series);
         }
         //create a new series alias with the supplied alias
-        $alias = new Entities\SeriesAlias();
+        $alias = $this->_di->getEntity('SeriesAlias');
         $alias->setAlias($this->_post['alias']);
         //if the selected series doesn't have this alias, add it
         $found = false;
         foreach($series->getAliases() as $setAlias){
-            if($setAlias->getAlias()==$alias->getAlias()){$found=true;break;}
+            if($setAlias->getAlias()==$alias->getAlias()){
+                $found=true;
+                break;
+            }
         }
         if(!$found){
             $series->addAlias($alias);
@@ -101,9 +110,10 @@ class CreateAliasController extends PageController{
      */
     protected function _verifyAccess($action='load'){
         if($action=='load'){
-            if(is_null($this->_user)){return false;}
+            if(is_null($this->_user)){
+                return false;
+            }
             if(!isset($this->_get['videoId']) && !isset($this->_post['videoId'])){
-                exit('here');
                 throw new v\PageRedirectException(303,'seriesList.php');
             }
         }

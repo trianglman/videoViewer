@@ -166,7 +166,6 @@ class CreateSeriesController extends PageController{
         {
             if(is_null($this->_user)){return false;}
             if(!isset($this->_get['videoId']) && !isset($this->_post['videoId'])){
-                exit('here');
                 throw new v\PageRedirectException(303,'seriesList.php');
             }
         }

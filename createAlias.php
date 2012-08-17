@@ -4,6 +4,7 @@ namespace videoViewer;
 session_start();
 require_once('includes/config.php');
 $page = new controllers\CreateAliasController($_GET, $_POST, $_SESSION, $_COOKIE, $di);
+$page->fileNameParser = new \videoViewer\FileNameParser();
 try{
     echo $page->processRequest();
 }
