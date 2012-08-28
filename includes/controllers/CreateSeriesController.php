@@ -121,9 +121,9 @@ class CreateSeriesController extends PageController{
      */
     protected function _processPost()
     {
-        if(!$this->verifyAccess('createSeries'))
+        if(!$this->_verifyAccess('createSeries'))
         {
-            throw new videoViewer\PageRedirectException(403);
+            throw new \videoViewer\PageRedirectException(403);
         }
         $this->_video = $this->_di['em']->find('videoViewer\Entities\Video',$this->_post['videoId']);
         $this->fileParser->parseFileName($this->_video->getFileNameBase());
@@ -139,9 +139,9 @@ class CreateSeriesController extends PageController{
         $series->setSeriesId($tvdbSeries->seriesid);
         //Create a series alias based on the video file name
         $videoAlias = $this->_di->getEntity('SeriesAlias');
-        $videoAlias->setAlias($parsed->series);
+        $videoAlias->setAlias($this->fileParser->series);
         $series->addAlias($videoAlias);
-        if($tvdbSeries->name!=$parsed->series)
+        if($tvdbSeries->name!=$this->fileParser->series)
         {//if the series name parsed out of the file doesn't match the TVDB series, add the TVDB series name
             $seriesAlias =$this->_di->getEntity('SeriesAlias');
             $seriesAlias->setAlias($tvdbSeries->name);
@@ -150,7 +150,7 @@ class CreateSeriesController extends PageController{
         $this->_di['em']->persist($series);
         $this->_di['em']->flush();
         $this->_attachVideoToSeries($series,$tvdbSeries);
-        new \videoViewer\PageRedirectException(303, 'index.php',$e);
+        new \videoViewer\PageRedirectException(303, 'index.php');
     }
     
     /**
