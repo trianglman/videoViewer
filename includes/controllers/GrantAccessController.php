@@ -58,7 +58,7 @@ class GrantAccessController extends PageController {
         $query = $this->_di['em']->createQuery("SELECT u FROM videoViewer\Entities\User u");
         foreach($query->getResult() as $user)
         {
-            if(in_array($this->_post['authUser']))
+            if(in_array($user->getId(),$this->_post['authUser']))
             {
                 $user->addAuthorizedSeries($this->series);
             }
@@ -67,7 +67,7 @@ class GrantAccessController extends PageController {
                 $user->removeAuthorizedSeries($this->series);
             }
         }
-        $em->flush();
+        $this->_di['em']->flush();
         throw new \videoViewer\PageRedirectException(303,'grantAccess.php?series='.$this->series->getId());
     }
 
