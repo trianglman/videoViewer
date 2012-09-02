@@ -45,12 +45,14 @@ class EditVideoController extends PageController {
      */
     protected function _processAjax() {
         $this->video = $this->_di['em']->find('videoViewer\Entities\Video',$this->_get['id']);
+        $authFuncs = array('checkSeries');
+        if(empty($this->_get['req']) || !in_array($this->_get['req'], $authFuncs)){
+            throw new \videoViewer\PageRedirectException(501);
+        }
         switch($this->_get['req']){
             case 'checkSeries':
                 return json_encode($this->_checkSeries());
                 break;
-            default:
-                throw new \videoViewer\PageRedirectException(501);
         }
     }
 
@@ -91,7 +93,8 @@ class EditVideoController extends PageController {
         $series = $this->_di['em']->find('videoViewer\Entities\Series',$this->_post['series']);
         if(is_null($series))
         {
-            return 'Invalid series';
+            $this->_message = 'Invalid series';
+            return $this->_processGet();
         }
         
         if(($status = $this->_validateForm())!==true)
@@ -107,6 +110,7 @@ class EditVideoController extends PageController {
         $this->video->setNotes($this->_post['notes']);
         $series->addEpisode($this->video);
         $this->_di['em']->flush();
+        throw new \videoViewer\PageRedirectException(303, 'viewVideoDetails.php?id='.$this->video->getId());
     }
 
     /**
