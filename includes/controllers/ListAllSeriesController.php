@@ -56,7 +56,6 @@ class ListAllSeriesController extends PageController {
     protected function _verifyAccess($action='load') {
         if ($action == 'load') {
             if (is_null($this->_user) || !$this->_user->isAdmin()) {
-                exit('in here');
                 return false;
             }
         }
