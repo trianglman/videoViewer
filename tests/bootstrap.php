@@ -38,4 +38,10 @@ spl_autoload_register(function($name){
 $loader = new \Mockery\Loader;
 $loader->register();
 
+require 'doctrine/lib/Doctrine/ORM/Tools/Setup.php';
+
+$lib = 'doctrine';
+\Doctrine\ORM\Tools\Setup::registerAutoloadGit($lib);
+
+
 ?>

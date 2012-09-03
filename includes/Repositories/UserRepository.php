@@ -27,7 +27,8 @@ class UserRepository extends EntityRepository{
      * @param string $hash
      * @return \videoViewer\Entities\User
      */
-    public function getUserByHash($hash){
+    public function getUserByHash($hash)
+    {
         if(is_null($this->_hashQuery)){
             $rawMapper = new \Doctrine\ORM\Query\ResultSetMapping();
             $rawMapper->addEntityResult('videoViewer\Entities\User', 'u');
@@ -46,6 +47,25 @@ class UserRepository extends EntityRepository{
             throw new EntityNotFoundException('No user with that hash');
         }
         return $users[0];
+    }
+    
+    /**
+     * Looks up a user based on a supplied name and password
+     * 
+     * @param string $name
+     * @param string $pass
+     * @return \videoViewer\Entities\User 
+     * 
+     * @throws \Doctrine\ORM\NoResultException If the user/password doesn't match
+     */
+    public function getUserByNameAndPassword($name,$pass)
+    {
+            return $this->_em->createQueryBuilder()->add('select','u')
+                    ->add('from','videoViewer\Entities\User u')
+                    ->add('where','u.userName=:username AND u.password=:pass')
+                    ->setParameter('username',$name)
+                    ->setParameter('pass',md5(v\Entities\User::SALT.$pass))
+                    ->getQuery()->getSingleResult();
     }
 }
 

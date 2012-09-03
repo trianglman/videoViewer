@@ -42,15 +42,9 @@ class IndexPageController extends PageController{
      */
     protected function _processPost(){
         try{
-            $user = $this->_di['em']->createQueryBuilder()->add('select','u')
-                    ->add('from','videoViewer\Entities\User u')
-                    ->add('where','u.userName=:username AND u.password=:pass')
-                    ->setParameter('username',
-                            filter_var($this->_post['login'],FILTER_SANITIZE_STRING))
-                    ->setParameter('pass',
-                            md5(v\Entities\User::SALT
-                                    .filter_var($this->_post['pass'],FILTER_UNSAFE_RAW)))
-                    ->getQuery()->getSingleResult();
+            $user = $this->_di['em']->getRepository('videoViewer\Entities\User')
+                    ->getUserByNameAndPassword(filter_var($this->_post['login'],FILTER_SANITIZE_STRING),
+                            filter_var($this->_post['pass'],FILTER_UNSAFE_RAW));
             $this->_session['userId']=$user->getId();
             throw new v\PageRedirectException(303, 'userHome.php');
         }
