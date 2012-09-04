@@ -61,12 +61,12 @@ class RegisterController extends PageController {
         $user->setUserName(filter_var($this->_post['login'],FILTER_SANITIZE_STRING));
         try
         {
-            $em->persist($user);
-            $em->flush();
+            $this->_di['em']->persist($user);
+            $this->_di['em']->flush();
             $this->_session['userId'] = $user->getId();
-            throw new videoViewer\PageRedirectException(303,'userHome.php');
+            throw new \videoViewer\PageRedirectException(303,'userHome.php');
         }
-        catch(\Exception $e)
+        catch(\Doctrine\ORM\ORMException $e)
         {
             $this->error = $e->getMessage();
             return $this->_processGet();
@@ -80,7 +80,7 @@ class RegisterController extends PageController {
      */
     protected function _validateForm(){
         $errors = array();
-        if(strlen($this->_post['pass']) < 6)
+        if(empty($this->_post['pass']) || strlen($this->_post['pass']) < 6)
         {
             $errors[]='You must set a password of at least six characters.';
         }
