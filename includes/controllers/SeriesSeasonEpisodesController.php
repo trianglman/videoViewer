@@ -74,7 +74,8 @@ class SeriesSeasonEpisodesController extends PageController {
             if (is_null($this->_user)) {
                 return false;
             }
-            if(empty($this->_get['series']) || empty($this->_get['season']))
+            if((empty($this->_get['series']) && empty($this->_post['series'])) || 
+                    (empty($this->_get['season']) && empty($this->_post['season'])))
             {
                 return false;
             }

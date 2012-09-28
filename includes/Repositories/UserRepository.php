@@ -64,7 +64,7 @@ class UserRepository extends EntityRepository{
                     ->add('from','videoViewer\Entities\User u')
                     ->add('where','u.userName=:username AND u.password=:pass')
                     ->setParameter('username',$name)
-                    ->setParameter('pass',md5(v\Entities\User::SALT.$pass))
+                    ->setParameter('pass',md5(\videoViewer\Entities\User::SALT.$pass))
                     ->getQuery()->getSingleResult();
     }
 }
