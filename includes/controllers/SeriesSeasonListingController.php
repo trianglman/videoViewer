@@ -79,12 +79,11 @@ class SeriesSeasonListingController extends PageController{
     protected function _verifyAccess($action='load'){
         if($action=='load'){
             if(is_null($this->_user)){return false;}
-            if(!isset($this->_get['series'])){
+            if(!isset($this->_get['series']) && !isset($this->_post['series'])){
                 throw new v\PageRedirectException(303,'userHome.php');
             }
         }
         elseif($action=='viewSeries'){
-            if(is_null($this->_series)){return false;}
             if(!$this->_user->canAccessSeries($this->_series) && !$this->_user->isAdmin())
             {
                 return false;
