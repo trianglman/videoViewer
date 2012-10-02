@@ -46,9 +46,9 @@ class UserHistoryController extends PageController {
      * @return string
      */
     protected function _processPost() {
-        if(!$this->verifyAccess('edit') 
+        if(!$this->_verifyAccess('edit') 
                 || !$this->_verifyAccess($this->_post['action'])){
-            throw new v\PageRedirectException(303,'userHistory.php');
+            throw new v\PageRedirectException(501);
         }
         $episode = $this->_di['em']->find('videoViewer\Entities\Video',
                 $this->_post['episode']);
@@ -74,23 +74,16 @@ class UserHistoryController extends PageController {
      */
     protected function _verifyAccess($action='load') {
         if ($action == 'load') {
-            if (is_null($this->_user)) {
-                return false;
-            }
-            else{
-                return true;
-            }
+            return !is_null($this->_user);
         }
         if($action=='edit'){
             if(!empty($this->_post['action']) 
-                    || in_array($this->_post['action'],array('add','del'))){
+                    && in_array($this->_post['action'],array('add','del'))){
                 return true;
             }
         }
         if(in_array($action,array('add','del'))){
-            if(!empty($_GET['episode'])){
-                return true;
-            }
+            return !empty($this->_post['episode']);
         }
         return false;
     }
