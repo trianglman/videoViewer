@@ -28,8 +28,8 @@ class UserHomeController extends PageController{
         $view = $this->_di->getView('UserHome');
         $view->name = $this->_user->getName();
         $view->admin = $this->_user->isAdmin();
-        $view->hasRoku = file_exists(dirname(__FILE__).'/../..'.
-                $this->_user->getRokuXML());
+        $view->hasRoku = $this->_di->fileSystem('file_exists',array(dirname(__FILE__).'/../..'.
+                $this->_user->getRokuXML()));
         $view->rokuUrl = $this->_user->getRokuXML();
         $view->setSeries($this->_user->getAuthorizedSeries(),$this->_user);
         return $view->render();
@@ -54,7 +54,7 @@ class UserHomeController extends PageController{
     protected function _verifyAccess($action='load'){
         if($action=='load'){
             if(is_null($this->_user)){
-                throw new v\PageRedirectException(403);
+                return false;
             }
         }
         return true;
