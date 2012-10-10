@@ -35,7 +35,7 @@ class ViewEpisodeController extends PageController {
      */
     protected function _processGet() {
         $view = $this->_di->getView('ViewEpisode');
-        $this->video = $this->_di['em']->find('videoViewer\Entities\Video',$_GET['episode']);
+        $this->video = $this->_di['em']->find('videoViewer\Entities\Video',$this->_get['episode']);
         if(!$this->_verifyAccess('viewVideo')){
             throw new \videoViewer\PageRedirectException(403);
         }
@@ -69,7 +69,7 @@ class ViewEpisodeController extends PageController {
      */
     protected function _verifyAccess($action='load') {
         if ($action == 'load') {
-            if (is_null($this->_user) || empty($_GET['episode'])) {
+            if (is_null($this->_user) || (empty($this->_get['episode']) && empty($this->_post['episode']))) {
                 return false;
             }
         }
