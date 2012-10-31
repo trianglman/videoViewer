@@ -51,7 +51,10 @@ class ViewVideoDetailsController extends PageController {
      */
     protected function _verifyAccess($action='load') {
         if ($action == 'load') {
-            if (is_null($this->_user) || empty($this->_get['id']) ||!is_numeric($this->_get['id'])) {
+            if (is_null($this->_user) || 
+                    ((empty($this->_get['id']) ||!is_numeric($this->_get['id'])) &&
+                     (empty($this->_post['id']) ||!is_numeric($this->_post['id'])))
+                ) {
                 return false;
             }
         }
