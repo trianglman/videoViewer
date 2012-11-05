@@ -33,12 +33,12 @@ class ViewVideoDetailsView extends PageView {
     
     public function oggPath()
     {
-        return $this->video->getWebPath('ogg');
+        return $this->video->getWebPath('ogg',$this->di);
     }
     
     public function mp4Path()
     {
-        return $this->video->getWebPath('mp4');
+        return $this->video->getWebPath('mp4',$this->di);
     }
     
     public function seriesName()

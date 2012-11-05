@@ -20,7 +20,7 @@ foreach($users as $user){
                         .$user->getUserHash().'/'.$episode->getFileName('mp4');
             $currMovie->addChild('path', $path);
             $currMovie->addChild('videocodec', 'mp4');
-            $currMovie->addChild('poster',$episode->getThumbnail());
+            $currMovie->addChild('poster',$episode->getThumbnail($di));
             $genre = '[TV/'.$series->getName()
                     .'/Season '.$episode->getSeasonNumber().'],';
             if(!$user->getWatchedVideos()->contains($episode)){

@@ -244,12 +244,13 @@ class Video {
      *
      * Gives the path as can be reached via the web server
      * @param string $format
+     * @param \videoViewer\DIContainer $di
      * @return string
      *
      * @throws Exception if the specified format can not be found
      */
-    public function getWebPath($format){
-        $fileLoc = $this->getFilePath($format);
+    public function getWebPath($format, \videoViewer\DIContainer $di){
+        $fileLoc = $this->getFilePath($format,$di);
         $pathBase = str_replace(\dirname(__FILE__).'/../../','',$fileLoc);
         return $pathBase;
     }
@@ -258,26 +259,37 @@ class Video {
      *
      * Gives the path of the file based on a given format
      * @param string $format
+     * @param \videoViewer\DIContainer $di
      * @return string
      *
      * @throws Exception if the specified format can not be found
      */
-    public function getFilePath($format){
+    public function getFilePath($format, \videoViewer\DIContainer $di){
         $filename = $this->getFileName($format);
         $dir = \dirname(__FILE__).'/../../'.self::VIDEO_DIR;
-        if($format=='jpg'){$dir.='thumbs/';}
-        if(!\file_exists($dir.$filename)){
-            throw new \Exception($dir.$filename.' does not exist in that format');
+        if($format=='jpg'){
+            $dir.='thumbs/';
         }
-        else{return $dir.$filename;}
+        if(!$di->fileSystem('file_exists', array($dir.$filename))){
+            throw new \RuntimeException($dir.$filename.' does not exist in that format');
+        }
+        else{
+            return $dir.$filename;
+        }
     }
     
     public function getFileName($format){
-        if($format=='ogg'){$filename = $this->fileNameBase.'.ogv';}
-        elseif($format=='mp4'){$filename = $this->fileNameBase.'.mp4';}
-        elseif($format=='jpg'){$filename = $this->fileNameBase.'.jpg';}
+        if($format=='ogg'){
+            $filename = $this->fileNameBase.'.ogv';
+        }
+        elseif($format=='mp4'){
+            $filename = $this->fileNameBase.'.mp4';
+        }
+        elseif($format=='jpg'){
+            $filename = $this->fileNameBase.'.jpg';
+        }
         else{
-            throw new \Exception('This file does not exist in that format');
+            throw new \RuntimeException('This file does not exist in that format');
         }
         return $filename;
     }
@@ -285,10 +297,12 @@ class Video {
     /**
      * Gets the path of the video's thumbnail
      * 
+     * @param \videoViewer\DIContainer $di
+     * 
      * @return string
      */
-    public function getThumbnail(){
-        $fileLoc = $this->getFilePath('jpg');
+    public function getThumbnail(\videoViewer\DIContainer $di){
+        $fileLoc = $this->getFilePath('jpg',$di);
         $pathBase = str_replace(\dirname(__FILE__).'/../../','',$fileLoc);
         return $pathBase;
     }

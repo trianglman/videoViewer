@@ -44,8 +44,8 @@ class ViewVideoDetailsViewTest extends \PHPUnit_Framework_TestCase {
         $series = m::mock('\videoViewer\Entities\Series');
         $series->shouldReceive('getName')->andReturn('Series 1');
         $ep = m::mock('\videoViewer\Entities\Video');
-        $ep->shouldReceive('getWebPath')->with('ogg')->andReturn('videos/video.1.ogv');
-        $ep->shouldReceive('getWebPath')->with('mp4')->andReturn('videos/video.1.mp4');
+        $ep->shouldReceive('getWebPath')->with('ogg',$this->di)->andReturn('videos/video.1.ogv');
+        $ep->shouldReceive('getWebPath')->with('mp4',$this->di)->andReturn('videos/video.1.mp4');
         $ep->shouldReceive('getSeries')->andReturn($series);
         $ep->shouldReceive('getSeasonNumber')->andReturn(1);
         $ep->shouldReceive('getEpisodeNumber')->andReturn(1);

@@ -61,8 +61,8 @@ class ViewEpisodeControllerTest extends \PHPUnit_Framework_TestCase {
         $series->shouldReceive('getName')->andReturn('Series 1');
         $vid->shouldReceive('getEpisodeName')->andReturn('Episode 1');
         $vid->shouldReceive('getSeries')->andReturn($series);
-        $vid->shouldReceive('getWebPath')->with('ogg')->andReturn('videos/video.1.ogv');
-        $vid->shouldReceive('getWebPath')->with('mp4')->andReturn('videos/video.1.mp4');
+        $vid->shouldReceive('getWebPath')->with('ogg',$this->di)->andReturn('videos/video.1.ogv');
+        $vid->shouldReceive('getWebPath')->with('mp4',$this->di)->andReturn('videos/video.1.mp4');
         $this->user->shouldReceive('isAdmin')->andReturn(false);
         $vid->shouldReceive('getId')->andReturn(1);
         $this->user->shouldReceive('addWatchedVideo')->with($vid);

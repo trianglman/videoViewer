@@ -27,6 +27,7 @@ abstract class PageView extends \Mustache{
         if(is_null($partials)){$partials = array();}
         $partials['head']=$di->loadTemplate('head');
         $partials['nav']=$di->loadTemplate('nav');
+        $this->di = $di;
         parent::__construct($template,$this,$partials);
     }
     

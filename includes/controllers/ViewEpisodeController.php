@@ -41,8 +41,8 @@ class ViewEpisodeController extends PageController {
         }
         $view->episodeName = $this->video->getEpisodeName();
         $view->seriesName = $this->video->getSeries()->getName();
-        $view->oggPath = $this->video->getWebPath('ogg');
-        $view->mp4Path = $this->video->getWebPath('mp4');
+        $view->oggPath = $this->video->getWebPath('ogg',$this->_di);
+        $view->mp4Path = $this->video->getWebPath('mp4',$this->_di);
         $view->isAdmin = $this->_user->isAdmin();
         $view->videoId = $this->video->getId();
         
