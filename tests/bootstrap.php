@@ -28,6 +28,9 @@ spl_autoload_register(function($name){
     elseif($fileParts[0]=='mustache'){
         $filename = dirname(__FILE__).'/../tools/mustache/Mustache';
     }
+    elseif($fileParts[0]=='tvDb'){
+        $filename = dirname(__FILE__).'/../tools/TvDb/'.ucfirst($fileParts[1]);
+    }
     else{
         $filename = implode('/', $fileParts);
         $filename = \str_replace("apacheLogParser",

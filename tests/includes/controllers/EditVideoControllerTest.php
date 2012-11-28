@@ -70,11 +70,11 @@ class EditVideoControllerTest extends \PHPUnit_Framework_TestCase {
         $episode = m::mock('videoViewer\TvDBEpisode');
         $tvdb->shouldReceive('getFullSeriesInformation')->with(1)->andReturn($series);
         $series->shouldReceive('getEpisodeByEpisodeNumber')->with(1,1)->andReturn($episode);
-        $episode->season = 1;
-        $episode->episode = 1;
-        $episode->airDate = new \DateTime('1980-11-18');
-        $episode->desc = 'Some Details.';
-        $episode->name = 'Episode 1';
+        $episode->shouldReceive('getSeason')->andReturn(1);
+        $episode->shouldReceive('getEpisode')->andReturn(1);
+        $episode->shouldReceive('getAirDate')->andReturn(new \DateTime('1980-11-18'));
+        $episode->shouldReceive('getDesc')->andReturn('Some Details.');
+        $episode->shouldReceive('getName')->andReturn('Episode 1');
         
         $filenameParser = m::mock('\videoViewer\FileNameParser');
         $filenameParser->shouldReceive('parseFileName')->with('video');
@@ -108,11 +108,11 @@ class EditVideoControllerTest extends \PHPUnit_Framework_TestCase {
         $episode = m::mock('videoViewer\TvDBEpisode');
         $tvdb->shouldReceive('getFullSeriesInformation')->with(1)->andReturn($series);
         $series->shouldReceive('getEpisodeByAirDate')->with($airDate)->andReturn($episode);
-        $episode->season = 1;
-        $episode->episode = 1;
-        $episode->airDate = $airDate;
-        $episode->desc = 'Some Details.';
-        $episode->name = 'Episode 1';
+        $episode->shouldReceive('getSeason')->andReturn(1);
+        $episode->shouldReceive('getEpisode')->andReturn(1);
+        $episode->shouldReceive('getAirDate')->andReturn($airDate);
+        $episode->shouldReceive('getDesc')->andReturn('Some Details.');
+        $episode->shouldReceive('getName')->andReturn('Episode 1');
         
         $filenameParser = m::mock('\videoViewer\FileNameParser');
         $filenameParser->shouldReceive('parseFileName')->with('video');

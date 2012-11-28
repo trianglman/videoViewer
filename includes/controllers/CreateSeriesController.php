@@ -12,7 +12,7 @@ class CreateSeriesController extends PageController{
     /**
      * The object used to talk to TVDB
      * 
-     * @var \videoViewer\TvDBApiConn
+     * @var \videoViewer\TvDBConnInterface
      */
     public $tvdbConn=null;
     /**
@@ -52,11 +52,11 @@ class CreateSeriesController extends PageController{
     /**
      * Sets the TVDB connection object
      * 
-     * @param \videoViewer\TvDBApiConn $conn 
+     * @param \videoViewer\TvDBConnInterface $conn 
      * 
      * @return void
      */
-    public function setTvdbConn(\videoViewer\TvDBApiConn $conn)
+    public function setTvdbConn(\videoViewer\TvDBConnInterface $conn)
     {
         $this->tvdbConn = $conn;
     }
@@ -99,11 +99,11 @@ class CreateSeriesController extends PageController{
         $seriesOpts = $this->tvdbConn->findSeries($this->fileParser->series);
         foreach($seriesOpts as $option){
             //temporarily store the series banners for user display
-            if(!$this->_di->fileSystem('file_exists',array(self::$bannerTempDir.$option->seriesid.'.jpg')))
+            if(!$this->_di->fileSystem('file_exists',array(self::$bannerTempDir.$option->getSeriesId().'.jpg')))
             {
                 $this->_di->fileSystem('file_put_contents',array(
-                    self::$bannerTempDir.$option->seriesid.'.jpg', 
-                    $this->tvdbConn->getBanner($option->bannerUrl)));
+                    self::$bannerTempDir.$option->getSeriesId().'.jpg', 
+                    $this->tvdbConn->getBanner($option->getSeriesId())));
             }
             $view->addSeriesOpt($option);
         }
@@ -129,22 +129,22 @@ class CreateSeriesController extends PageController{
         $this->fileParser->parseFileName($this->_video->getFileNameBase());
         //process the form
         $tvdbSeries = $this->tvdbConn->getFullSeriesInformation($this->_post['seriesId']);
-        $this->_di->fileSystem('rename',array(self::$bannerTempDir.$tvdbSeries->seriesid.'.jpg',
-            self::$bannerDir.$tvdbSeries->seriesid.'.jpg'));
+        $this->_di->fileSystem('rename',array(self::$bannerTempDir.$tvdbSeries->getSeriesId().'.jpg',
+            self::$bannerDir.$tvdbSeries->getSeriesId().'.jpg'));
         
         $series = $this->_di->getEntity('Series');
-        $series->setDescription($tvdbSeries->desc);
-        $series->setImage(self::$bannerDir.$tvdbSeries->seriesid.'.jpg');
-        $series->setName($tvdbSeries->name);
-        $series->setSeriesId($tvdbSeries->seriesid);
+        $series->setDescription($tvdbSeries->getDescription());
+        $series->setImage(self::$bannerDir.$tvdbSeries->getSeriesId().'.jpg');
+        $series->setName($tvdbSeries->getSeriesName());
+        $series->setSeriesId($tvdbSeries->getSeriesId());
         //Create a series alias based on the video file name
         $videoAlias = $this->_di->getEntity('SeriesAlias');
         $videoAlias->setAlias($this->fileParser->series);
         $series->addAlias($videoAlias);
-        if($tvdbSeries->name!=$this->fileParser->series)
+        if($tvdbSeries->getSeriesName()!=$this->fileParser->series)
         {//if the series name parsed out of the file doesn't match the TVDB series, add the TVDB series name
             $seriesAlias =$this->_di->getEntity('SeriesAlias');
-            $seriesAlias->setAlias($tvdbSeries->name);
+            $seriesAlias->setAlias($tvdbSeries->getSeriesName());
             $series->addAlias($seriesAlias);
         }
         $this->_di['em']->persist($series);
@@ -190,7 +190,7 @@ class CreateSeriesController extends PageController{
      * @throws \RuntimeException if the video details don't find a valid TVDB episode
      */
     protected function _attachVideoToSeries(\videoViewer\Entities\Series $series,  
-            \videoViewer\TvDBSeries $tvdbSeries)
+            \videoViewer\TvDBSeriesInterface $tvdbSeries)
     {
         //search through the xml for the episode's identifiers
         if(!empty($this->fileParser->episode)){
@@ -206,10 +206,11 @@ class CreateSeriesController extends PageController{
             throw new \RuntimeException('Episode was not found');
         }
         //update the video record and attach to series
-        $this->_video->setAirDate($episode->airDate);
-        $this->_video->setDetails($episode->desc);
-        $this->_video->setEpisodeNumber($episode->episode);
-        $this->_video->setSeasonNumber($episode->season);
+        $this->_video->setEpisodeName($episode->getName());
+        $this->_video->setAirDate($episode->getAirDate());
+        $this->_video->setDetails($episode->getDesc());
+        $this->_video->setEpisodeNumber($episode->getEpisode());
+        $this->_video->setSeasonNumber($episode->getSeason());
         $this->_video->setNotes('');
         $series->addEpisode($this->_video);
         $this->_di['em']->flush();

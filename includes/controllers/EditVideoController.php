@@ -26,7 +26,7 @@ class EditVideoController extends PageController {
     
     /**
      *
-     * @var \videoViewer\TvDBApiConn
+     * @var \videoViewer\TvDBConnInterface
      */
     public $tvdbConn=null;
     
@@ -159,11 +159,11 @@ class EditVideoController extends PageController {
     /**
      * Sets the TVDB API connection object
      * 
-     * @param v\TvDBApiConn $conn 
+     * @param v\TvDBConnInterface $conn 
      * 
      * @return void
      */
-    public function setTvdbConn(v\TvDBApiConn $conn)
+    public function setTvdbConn(v\TvDBConnInterface $conn)
     {
         $this->tvdbConn = $conn;
     }
@@ -208,11 +208,11 @@ class EditVideoController extends PageController {
         if(!empty($episode))
         {
             $returnArray = array();
-            $returnArray['Season']=$episode->season;
-            $returnArray['Episode']=$episode->episode;
-            $returnArray['Date']=$episode->airDate->format('m/d/Y');
-            $returnArray['Details']=$episode->desc;
-            $returnArray['Name']=$episode->name;
+            $returnArray['Season']=$episode->getSeason();
+            $returnArray['Episode']=$episode->getEpisode();
+            $returnArray['Date']=$episode->getAirDate()->format('m/d/Y');
+            $returnArray['Details']=$episode->getDesc();
+            $returnArray['Name']=$episode->getName();
             return $returnArray;
         }
         //otherwise return details not matched

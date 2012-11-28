@@ -89,11 +89,10 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $fileParser->series = 'Series 1';
         
         $series = m::mock('\videoViewer\TvDBSeries');
-        $series->seriesid = 1;
-        $series->bannerUrl = 'http://tvdb.com/image.jpg';
+        $series->shouldReceive('getSeriesId')->andReturn(1);
         $tvdb = m::mock('\videoViewer\TvDBApiConn');
         $tvdb->shouldReceive('findSeries')->with('Series 1')->andReturn(array($series,$series));
-        $tvdb->shouldReceive('getBanner')->with('http://tvdb.com/image.jpg')->andReturn('123');
+        $tvdb->shouldReceive('getBanner')->with(1)->andReturn('123');
         
         $this->di->shouldReceive('fileSystem')->with('file_exists',m::type('array'))->andReturn(false);
         $this->di->shouldReceive('fileSystem')->with('file_put_contents',m::type('array'));
@@ -125,6 +124,7 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $airDate = new \DateTime('1980-11-18');
         $video = m::mock('videoViewer\Entities\Video');
         $video->shouldReceive('getFileNameBase')->andReturn('video');
+        $video->shouldReceive('setEpisodeName')->with('Episode Name')->andReturn($video)->once();
         $video->shouldReceive('setAirDate')->with($airDate)->andReturn($video)->once();
         $video->shouldReceive('setDetails')->with('Episode desc.')->andReturn($video)->once();
         $video->shouldReceive('setEpisodeNumber')->with(1)->andReturn($video)->once();
@@ -139,14 +139,15 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $fileParser->season = 1;
         
         $episode = m::mock('\videoViewer\TvDBEpisode');
-        $episode->airDate = $airDate;
-        $episode->desc = 'Episode desc.';
-        $episode->episode = 1;
-        $episode->season = 1;
+        $episode->shouldReceive('getName')->andReturn('Episode Name');
+        $episode->shouldReceive('getAirDate')->andReturn($airDate);
+        $episode->shouldReceive('getDesc')->andReturn('Episode desc.');
+        $episode->shouldReceive('getEpisode')->andReturn(1);
+        $episode->shouldReceive('getSeason')->andReturn(1);
         $tvdbSeries = m::mock('\videoViewer\TvDBSeries');
-        $tvdbSeries->seriesid = 1;
-        $tvdbSeries->desc = 'A description.';
-        $tvdbSeries->name = 'Series 1';
+        $tvdbSeries->shouldReceive('getSeriesId')->andReturn(1);
+        $tvdbSeries->shouldReceive('getDescription')->andReturn('A description.');
+        $tvdbSeries->shouldReceive('getSeriesName')->andReturn('Series 1');
         $tvdbSeries->shouldReceive('getEpisodeByEpisodeNumber')->with(1,1)->andReturn($episode);
         $tvdb = m::mock('\videoViewer\TvDBApiConn');
         $tvdb->shouldReceive('getFullSeriesInformation')->with(1)->andReturn($tvdbSeries);
@@ -182,6 +183,7 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $airDate = new \DateTime('1980-11-18');
         $video = m::mock('videoViewer\Entities\Video');
         $video->shouldReceive('getFileNameBase')->andReturn('video');
+        $video->shouldReceive('setEpisodeName')->with('Episode Name')->andReturn($video)->once();
         $video->shouldReceive('setAirDate')->with($airDate)->andReturn($video)->once();
         $video->shouldReceive('setDetails')->with('Episode desc.')->andReturn($video)->once();
         $video->shouldReceive('setEpisodeNumber')->with(1)->andReturn($video)->once();
@@ -195,14 +197,15 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $fileParser->airDate = $airDate;
         
         $episode = m::mock('\videoViewer\TvDBEpisode');
-        $episode->airDate = $airDate;
-        $episode->desc = 'Episode desc.';
-        $episode->episode = 1;
-        $episode->season = 1;
+        $episode->shouldReceive('getName')->andReturn('Episode Name');
+        $episode->shouldReceive('getAirDate')->andReturn($airDate);
+        $episode->shouldReceive('getDesc')->andReturn('Episode desc.');
+        $episode->shouldReceive('getEpisode')->andReturn(1);
+        $episode->shouldReceive('getSeason')->andReturn(1);
         $tvdbSeries = m::mock('\videoViewer\TvDBSeries');
-        $tvdbSeries->seriesid = 1;
-        $tvdbSeries->desc = 'A description.';
-        $tvdbSeries->name = 'Series 1';
+        $tvdbSeries->shouldReceive('getSeriesId')->andReturn(1);
+        $tvdbSeries->shouldReceive('getDescription')->andReturn('A description.');
+        $tvdbSeries->shouldReceive('getSeriesName')->andReturn('Series 1');
         $tvdbSeries->shouldReceive('getEpisodeByAirDate')->with($airDate)->andReturn($episode);
         $tvdb = m::mock('\videoViewer\TvDBApiConn');
         $tvdb->shouldReceive('getFullSeriesInformation')->with(1)->andReturn($tvdbSeries);
@@ -251,9 +254,9 @@ class CreateSeriesControllerTest extends \PHPUnit_Framework_TestCase {
         $fileParser->airDate = $airDate;
         
         $tvdbSeries = m::mock('\videoViewer\TvDBSeries');
-        $tvdbSeries->seriesid = 1;
-        $tvdbSeries->desc = 'A description.';
-        $tvdbSeries->name = 'Series 1';
+        $tvdbSeries->shouldReceive('getSeriesId')->andReturn(1);
+        $tvdbSeries->shouldReceive('getDescription')->andReturn('A description.');
+        $tvdbSeries->shouldReceive('getSeriesName')->andReturn('Series 1');
         $tvdbSeries->shouldReceive('getEpisodeByAirDate')->with($airDate)->andReturn(null);
         $tvdb = m::mock('\videoViewer\TvDBApiConn');
         $tvdb->shouldReceive('getFullSeriesInformation')->with(1)->andReturn($tvdbSeries);
